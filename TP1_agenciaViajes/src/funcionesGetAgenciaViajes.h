@@ -2,7 +2,7 @@
  * funcionesGetAgenciaViajes.h
  *
  *  Created on: 7 abr. 2022
- *      Author: ezequ
+ *      Author: Ezequiel Melo 1°B
  */
 
 #ifndef FUNCIONESGETAGENCIAVIAJES_H_
@@ -15,6 +15,7 @@
  * int lenght --> maximo del largo del string a verificar
  */
 int myGets(char*, int);
+
 /**Verifica que lo que le llega sean valores numericos.
  * Recorre cada posicion del string que recibe por parametro verificando
  * que en la primera posicion haya un '-' o '+' o un numero y en las siguientes

@@ -1,7 +1,7 @@
 /*
  ============================================================================
  Name        : TP1_agenciaViajes.c
- Author      : 
+ Author      : Ezequiel Melo 1°B
  Version     :
  Copyright   : Your copyright notice
  Description : Hello World in C, Ansi-style
@@ -24,15 +24,15 @@ int main(void)
 	int kilometres=0;
 	float priceAerolineas=0;
 	float priceLatam=0;
-	float descuentoConDebitoAerolineas;
-	float InteresConCreditoAerolineas;
-	float precioBitcoinAerolineas;
-	float precioPorkilometroAerolineas;
-	float descuentoConDebitoLatam;
-	float InteresConCreditoLatam;
-	float precioBitcoinLatam;
-	float precioPorkilometroALatam;
-	float diferenciaPrecios;
+	float debitDiscountAerolineas;
+	float creditInterestAerolineas;
+	float priceInBitcoinAerolineas;
+	float pricePerKilometerAerolineas;
+	float debitDiscountLatam;
+	float creditInterestLatam;
+	float priceInBitcoinLatam;
+	float pricePerKilometerLatam;
+	float priceDiferenceFinal;
 
 
 	setbuf(stdout,NULL);
@@ -80,9 +80,8 @@ int main(void)
 			{
 				flagKilometres=0;
 			}
-			limpiar_pantalla();
-		    //system ("pause");
-		    //system ("cls");
+		    system ("pause");
+		    system ("cls");
 			break;
 		case 2:
 			getIntNumber(&subOption, "1. Ingresar precio Aerolineas: \n2. Ingresar precio Latam: \n", "Error opcion incorrecta\n", 1, 9999999, 5);
@@ -120,15 +119,15 @@ int main(void)
 				printf("\nError. Antes debe ingresar precio valido para Aerolineas\n");
 			}else if(flagPrice==2 && flagKilometres==0)
 			{
-				descuentoConDebitoAerolineas = debitDiscount(priceAerolineas, 0.90);
-				descuentoConDebitoLatam = debitDiscount(priceLatam, 0.90);
-				InteresConCreditoAerolineas = creditInterest(priceAerolineas, 1.25);
-				InteresConCreditoLatam = creditInterest(priceLatam, 1.25);
-				precioBitcoinAerolineas = priceInBitcoin(priceAerolineas, 4606954.55);
-				precioBitcoinLatam = priceInBitcoin(priceLatam, 4606954.55);
-				precioPorkilometroAerolineas = pricePerKilometer(kilometres, priceAerolineas);
-				precioPorkilometroALatam = pricePerKilometer(kilometres, priceLatam);
-				diferenciaPrecios = priceDiference(priceAerolineas, priceLatam);
+				debitDiscountAerolineas = debitDiscount(priceAerolineas, 0.90);
+				debitDiscountLatam = debitDiscount(priceLatam, 0.90);
+				creditInterestAerolineas = creditInterest(priceAerolineas, 1.25);
+				creditInterestLatam = creditInterest(priceLatam, 1.25);
+				priceInBitcoinAerolineas = priceInBitcoin(priceAerolineas, 4606954.55);
+				priceInBitcoinLatam = priceInBitcoin(priceLatam, 4606954.55);
+				pricePerKilometerAerolineas = pricePerKilometer(kilometres, priceAerolineas);
+				pricePerKilometerLatam = pricePerKilometer(kilometres, priceLatam);
+				priceDiferenceFinal = priceDiference(priceAerolineas, priceLatam);
 				flagOperations=0;
 				printf("\nCalculos realizados con exito...\n\n");
 			    system ("pause");
@@ -144,10 +143,10 @@ int main(void)
 				printf("\nError. Antes debe calcular los costos\n");
 			}else
 			{
-				printf("\nKilometros Ingresados: %d\n", kilometres);
-				showMenu("Aerolineas", priceAerolineas, descuentoConDebitoAerolineas, InteresConCreditoAerolineas, precioBitcoinAerolineas, precioPorkilometroAerolineas);
-				showMenu("Latam", priceLatam, descuentoConDebitoLatam, InteresConCreditoLatam, precioBitcoinLatam, precioPorkilometroALatam);
-				printf("La diferencia de Precios es: %.2f\n",diferenciaPrecios);
+				printf("\nKilometros Ingresados: %d\n\n", kilometres);
+				showMenu("Aerolineas", priceAerolineas, debitDiscountAerolineas, creditInterestAerolineas, priceInBitcoinAerolineas, pricePerKilometerAerolineas);
+				showMenu("Latam", priceLatam, debitDiscountLatam, creditInterestLatam, priceInBitcoinLatam, pricePerKilometerLatam);
+				printf("\nLa diferencia de Precios es: %.2f\n\n",priceDiferenceFinal);
 			    system ("pause");
 			    system ("cls");
 			}
@@ -157,30 +156,33 @@ int main(void)
 			priceAerolineas=162965;
 			priceLatam=159339;
 
-			descuentoConDebitoAerolineas = debitDiscount(priceAerolineas, 0.90);
-			descuentoConDebitoLatam = debitDiscount(priceLatam, 0.90);
-			InteresConCreditoAerolineas = creditInterest(priceAerolineas, 1.25);
-			InteresConCreditoLatam = creditInterest(priceLatam, 1.25);
-			precioBitcoinAerolineas = priceInBitcoin(priceAerolineas, 4606954.55);
-			precioBitcoinLatam = priceInBitcoin(priceLatam, 4606954.55);
-			precioPorkilometroAerolineas = pricePerKilometer(kilometres, priceAerolineas);
-			precioPorkilometroALatam = pricePerKilometer(kilometres, priceLatam);
-			diferenciaPrecios = priceDiference(priceAerolineas, priceLatam);
+			debitDiscountAerolineas = debitDiscount(priceAerolineas, 0.90);
+			debitDiscountLatam = debitDiscount(priceLatam, 0.90);
+			creditInterestAerolineas = creditInterest(priceAerolineas, 1.25);
+			creditInterestLatam = creditInterest(priceLatam, 1.25);
+			priceInBitcoinAerolineas = priceInBitcoin(priceAerolineas, 4606954.55);
+			priceInBitcoinLatam = priceInBitcoin(priceLatam, 4606954.55);
+			pricePerKilometerAerolineas = pricePerKilometer(kilometres, priceAerolineas);
+			pricePerKilometerLatam = pricePerKilometer(kilometres, priceLatam);
+			priceDiferenceFinal = priceDiference(priceAerolineas, priceLatam);
 
-			printf("\nKilometros Ingresados: %d\n", kilometres);
-			showMenu("Aerolineas", priceAerolineas, descuentoConDebitoAerolineas, InteresConCreditoAerolineas, precioBitcoinAerolineas, precioPorkilometroAerolineas);
-			showMenu("Latam", priceLatam, descuentoConDebitoLatam, InteresConCreditoLatam, precioBitcoinLatam, precioPorkilometroALatam);
-			printf("La diferencia de Precios es: %.2f\n",diferenciaPrecios);
+			printf("\nKilometros Ingresados: %d\n\n", kilometres);
+			showMenu("Aerolineas", priceAerolineas, debitDiscountAerolineas, creditInterestAerolineas, priceInBitcoinAerolineas, pricePerKilometerAerolineas);
+			showMenu("Latam", priceLatam, debitDiscountLatam, creditInterestLatam, priceInBitcoinLatam, pricePerKilometerLatam);
+			printf("\nLa diferencia de Precios es: %.2f\n\n",priceDiferenceFinal);
 		    system ("pause");
 		    system ("cls");
+			kilometres=0;
+			priceAerolineas=0;
+			priceLatam=0;
 			break;
 		case 6:
 			break;
 		}
-	    system ("pause");
-	    system ("cls");
-
 	}while(option!=6);
+
+    system ("pause");
+    system ("cls");
 
 	printf("\nGracias por utilizar nuestro programa. Hasta pronto!!!");
 

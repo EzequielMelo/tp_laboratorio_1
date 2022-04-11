@@ -74,12 +74,12 @@ float priceDiference(float price1, float price2)
 	return diference;
 }
 
-void showMenu(char texto[], float dato1, float dato2, float dato3, float dato4, float dato5)
+void showMenu(char text[], float price, float discount, float interest, float bitcoin, float kilometer)
 {
-	printf("--------------%s--------------\n", texto);
-	printf("Precio %s: $%.2f\n",texto, dato1);
-	printf("Precio con tarjeta de debito: %.2f\n",dato2);
-	printf("Precio con tarjeta de credito: %.2f\n",dato3);
-	printf("Precio pagando con Bitcoin: %f\n",dato4);
-	printf("Precio unitario: %.2f\n",dato5);
+	printf("--------------%s--------------\n", text);
+	printf("Precio %s: $%.2f\n",text, price);
+	printf("Precio con tarjeta de debito: %.2f\n",discount);
+	printf("Precio con tarjeta de credito: %.2f\n",interest);
+	printf("Precio pagando con Bitcoin: %f\n",bitcoin);
+	printf("Precio unitario: %.2f\n",kilometer);
 }
