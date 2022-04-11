@@ -70,7 +70,7 @@ int main(void)
 		printf("4. Informar Resultados\n");
 		printf("5. Carga forzada\n");
 		printf("6. Salir\n");
-		getIntNumber(&option,"Ingrese una opcion: ", "Error opcion incorrecta: \n", 1, 6, 5);
+		getIntNumber(&option,"Ingrese una opcion: ", "Error. Ingrese una opcion correcta (1-6): \n", 1, 6, 5);
 
 		switch(option)
 		{
@@ -172,6 +172,7 @@ int main(void)
 			printf("\nLa diferencia de Precios es: %.2f\n\n",priceDiferenceFinal);
 		    system ("pause");
 		    system ("cls");
+
 			kilometres=0;
 			priceAerolineas=0;
 			priceLatam=0;
