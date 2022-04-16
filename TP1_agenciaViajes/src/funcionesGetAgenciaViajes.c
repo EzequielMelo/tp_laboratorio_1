@@ -136,6 +136,8 @@ int getIntNumber(int* pResult, char* message, char* errorMessage, int min, int m
 {
 	int rtn = -1;
 	int bufferInt;
+
+	fflush(stdin);
 	do
 	{
 		printf("%s", message);

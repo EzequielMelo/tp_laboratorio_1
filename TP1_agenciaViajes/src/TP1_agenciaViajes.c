@@ -35,6 +35,7 @@ int main(void)
 	float priceDiferenceFinal;
 
 
+
 	setbuf(stdout,NULL);
 	printf("-------------Bienvenido!!!-------------\n");
 
@@ -70,7 +71,11 @@ int main(void)
 		printf("4. Informar Resultados\n");
 		printf("5. Carga forzada\n");
 		printf("6. Salir\n");
-		getIntNumber(&option,"Ingrese una opcion: ", "Error. Ingrese una opcion correcta (1-6): \n", 1, 6, 5);
+		setbuf(stdin,NULL);
+		fflush(stdin);
+		getIntNumber(&option,"Ingrese una opcion: ", "\nError. Ingrese una opcion correcta (1-6):\n", 1, 6, 5);
+
+	    system ("cls");
 
 		switch(option)
 		{
@@ -130,26 +135,26 @@ int main(void)
 				priceDiferenceFinal = priceDiference(priceAerolineas, priceLatam);
 				flagOperations=0;
 				printf("\nCalculos realizados con exito...\n\n");
-			    system ("pause");
-			    system ("cls");
 			}else
 			{
 				printf("\nError. Antes debe ingresar Kilometros y precio de vuelos\n");
 			}
+		    system ("pause");
+		    system ("cls");
 			break;
 		case 4:
 			if(flagOperations==-1)
 			{
-				printf("\nError. Antes debe calcular los costos\n");
+				printf("\nError. Antes debe calcular los costos\n\n");
 			}else
 			{
 				printf("\nKilometros Ingresados: %d\n\n", kilometres);
 				showMenu("Aerolineas", priceAerolineas, debitDiscountAerolineas, creditInterestAerolineas, priceInBitcoinAerolineas, pricePerKilometerAerolineas);
 				showMenu("Latam", priceLatam, debitDiscountLatam, creditInterestLatam, priceInBitcoinLatam, pricePerKilometerLatam);
 				printf("\nLa diferencia de Precios es: %.2f\n\n",priceDiferenceFinal);
-			    system ("pause");
-			    system ("cls");
 			}
+		    system ("pause");
+		    system ("cls");
 			break;
 		case 5:
 			kilometres=7090;
@@ -177,15 +182,12 @@ int main(void)
 			priceAerolineas=0;
 			priceLatam=0;
 			break;
-		case 6:
-			break;
 		}
 	}while(option!=6);
 
-    system ("pause");
-    system ("cls");
+	printf("\n\nGracias por utilizar nuestro programa. Hasta pronto!!!\n\n");
 
-	printf("\nGracias por utilizar nuestro programa. Hasta pronto!!!");
+    system ("pause");
 
 	return EXIT_SUCCESS;
 }
