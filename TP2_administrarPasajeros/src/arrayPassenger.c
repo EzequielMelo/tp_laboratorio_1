@@ -124,11 +124,11 @@ int askForPassenger(Passenger list[], int len, FlightCode listflightCode[], int 
 	float auxPrice;
 	int auxFlightCode;
 	int auxTypePassenger;
-	int correctName;
-	int correctLastName;
-	int correctPrice;
-	int correctFlightCode;
-	int correctTypePassenger;
+	int correctName=ERROR;
+	int correctLastName=ERROR;
+	int correctPrice=ERROR;
+	int correctFlightCode=ERROR;
+	int correctTypePassenger=ERROR;
 	int verify=ERROR;
 
 	int errorCode=FALSE;
@@ -142,7 +142,7 @@ int askForPassenger(Passenger list[], int len, FlightCode listflightCode[], int 
 	{
 		puts("Ingrese uno de los siguientes vuelos disponibles:");
 		printFlightCodes(listflightCode, flightCodeLen);
-		correctFlightCode=getIntNumber(&auxFlightCode,"Ingrese Codigo de Vuelo:\n ","Error, el numero de vuelo ingresado no existe\n",1000,1500,5);
+		correctFlightCode=getIntNumber(&auxFlightCode,"Ingrese ID de Vuelo:\n ","Error, el numero de vuelo ingresado no existe\n",1000,1500,5);
 		verify=verifyFlightCode(listflightCode, flightCodeLen, auxFlightCode);
 		if(verify==ERROR)
 		{
@@ -152,7 +152,7 @@ int askForPassenger(Passenger list[], int len, FlightCode listflightCode[], int 
 
 	puts("Ingrese la Clase del pasaje:");
 	printTypePassengers(listTypePassenger, lenTypePassenger);
-	correctTypePassenger=getIntNumber(&auxTypePassenger,"Ingrese Clase del Pasaje:\n ","Error el numero ingresado es invalido\n",1,3,5);
+	correctTypePassenger=getIntNumber(&auxTypePassenger,"Ingrese ID del tipo Pasaje:\n ","Error el numero ingresado es invalido\n",1,3,5);
 
 	if(correctName !=ERROR && 	correctLastName !=ERROR && correctPrice !=ERROR && correctFlightCode !=ERROR && correctTypePassenger !=ERROR)
 	{
@@ -192,7 +192,7 @@ int addPassenger(Passenger* list, int len, FlightCode* listflightCode, int fligh
 			puts("Desea cargar el siguiente pasajero:");
 			title();
 			printAPassenger(list[index], listflightCode, flightCodeLen, listTypePassenger, lenTypePassenger, listFLights, lenFlights);
-			getIntNumber(&option,"1-Para SI\n2-Para NO","Error. Opcion incorrecta",1, 2, 5);
+			getIntNumber(&option,"1-Para SI\n2-Para NO\n","Error. Opcion incorrecta",1, 2, 5);
 			if(option==1)
 			{
 				puts("Pasajero cargado con EXITO");
@@ -288,7 +288,7 @@ void modifyPassenger(Passenger list[], int index, FlightCode listflightCode[], i
 			{
 				puts("Ingrese uno de los siguientes vuelos disponibles:");
 				printFlightCodes(listflightCode, flightCodeLen);
-				correctValue=getIntNumber(&auxFlightCode,"Ingrese Codigo de Vuelo:\n ","Error, el numero de vuelo ingresado no existe\n",1000,1500,5);
+				correctValue=getIntNumber(&auxFlightCode,"Ingrese ID del Vuelo:\n ","Error, el numero de vuelo ingresado no existe\n",1000,1500,5);
 				verify=verifyFlightCode(listflightCode, flightCodeLen, auxFlightCode);
 				if(verify==ERROR)
 				{
@@ -302,13 +302,13 @@ void modifyPassenger(Passenger list[], int index, FlightCode listflightCode[], i
 		case 5:
 			puts("Ingrese Una de las siguientes Clases disponibles:");
 			printTypePassengers(listTypePassenger, lenTypePassenger);
-			correctValue=getIntNumber(&auxTypePassenger,"Ingrese Clase del Pasaje:\n ","Error el numero ingresado es invalido\n",1,3,5);
+			correctValue=getIntNumber(&auxTypePassenger,"Ingrese ID del tipo de pasaje:\n ","Error el numero ingresado es invalido\n",1,3,5);
 			list[index].typePassenger=auxTypePassenger;
 			break;
 		case 6:
 			puts("Ingrese el Status actual del vuelo:");
 			printStatusFlights(listFLights, lenFlights);
-			correctValue=getIntNumber(&auxStatusFlight,"Ingrese el Status:\n ","Error el numero ingresado es invalido\n",1,3,5);
+			correctValue=getIntNumber(&auxStatusFlight,"Ingrese el ID del Status:\n ","Error el numero ingresado es invalido\n",1,3,5);
 			list[index].statusFlight=auxStatusFlight;
 			break;
 		}
@@ -417,7 +417,7 @@ int passengerRemover(Passenger* list, int len, FlightCode listflightCode[], int 
 float totalPrice(Passenger* list, int len)
 {
 	int i;
-	float total=-1;
+	float total=0;
 
 	for(i=0;i<len;i++)
 	{
@@ -431,13 +431,13 @@ float totalPrice(Passenger* list, int len)
 
 float averagePrice(Passenger* list, int len, float total)
 {
-	float average=-1;
-	int passengers=-1;
+	float average=0;
+	int passengers=0;
 
 	passengers=takenPositionsCounter(list, len);
 	total=totalPrice(list, len);
 
-	average=total/passengers;
+	average=(float)(total/passengers);
 
 	return average;
 }

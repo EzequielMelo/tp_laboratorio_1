@@ -108,8 +108,8 @@ int main(void){
 			}
 			break;
 		}
-		puts("Muchas gracias por utilizar el programa!!!");
 	}while(option!=5);
+	puts("Muchas gracias por utilizar el programa!!!");
 	return EXIT_SUCCESS;
 }
 
