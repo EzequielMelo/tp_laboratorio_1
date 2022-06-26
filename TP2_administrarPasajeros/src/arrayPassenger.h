@@ -3,6 +3,9 @@
 #include <string.h>
 #include <ctype.h>
 #include "utn_get.h"
+#include "arrayStatus.h"
+#include "arrayType.h"
+#include "arrayFlightCode.h"
 
 #define LIMIT_CHARACTERS 51
 #define LENPASSENGERS 2000
@@ -12,27 +15,6 @@
 #define FALSE 0
 #define TRUE 1
 #define ERROR -1
-
-typedef struct
-{
-	int idStatusFlight;
-	char statusFlight[LIMIT_CHARACTERS]; //activo o cancelado o demorado
-	int isEmpty;
-}StatusFlight;
-
-typedef struct
-{
-	int idTypePassenger;
-	char typePassenger[LIMIT_CHARACTERS]; //a mi criterio: primera clase, turista, ejecutiva
-	int isEmpty;
-}TypePassenger;
-
-typedef struct
-{
-	int idFlyCode;
-	char flyCode[LIMIT_CODE]; //codigo de avion a abordar
-	int isEmpty;
-}FlightCode;
 
 typedef struct
 {
@@ -47,7 +29,7 @@ typedef struct
 }Passenger;
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
+void idGeneratorFinal(int* id);
 /** \brief To indicate that all position in the array are empty,
 * this function put the flag (isEmpty) in TRUE in all
 * position of the array and the id flag too
@@ -91,12 +73,12 @@ int takenPositionsCounter(Passenger* list, int len);
 int verifyFlightCode(FlightCode list[], int len, int toVerify);
 
 /**
- * Recorre la lista buscando el mayor numero de id, le suma una unidad y la devuelve por return
+ * Suma 1 al id desde 0 hasta cerrar el programa
  * @param list
  * @param len
  * @return int return (id)
  */
-int idGenerator(Passenger list[], int len);
+void idGeneratorFinal(int* id);
 
 /*---------------------------------------------------------Alta lista-------------------------------------------------------------------------*/
 
@@ -333,46 +315,9 @@ void printAPassenger(Passenger list, FlightCode* listCodes, int lenCodes, TypePa
 int printPassengers(Passenger* list, int length, FlightCode* listCodes, int lenCodes, TypePassenger* listType, int lenTypes, StatusFlight* listFLights, int lenFlights);
 
 /**
- * Muestra un status
- * @param list
- */
-void printStatusFlight(StatusFlight list);
-
-/**
- * Muestra todos los status
- * @param list
- * @param len
- */
-void printStatusFlights(StatusFlight list[], int len);
-
-/**
- * Muestra un tipo de pasajero
- * @param list
- */
-void printTypePassenger(TypePassenger list);
-
-/**
- * Muestra todos los tipo de pasajeros
- * @param list
- * @param len
- */
-void printTypePassengers(TypePassenger list[], int len);
-
-/**
- * Muestra un codigo de vuelo
- * @param list
- */
-void printFlightCode(FlightCode list);
-
-/**
- * Muestra todos los codigo de vuelo
- * @param list
- * @param len
- */
-void printFlightCodes(FlightCode list[], int len);
-
-/**
  * Contiene la cabecera acerca de los datos de los pasajeros que se van a mostrar
  */
 void title();
+
+void addPassengerHardcode(Passenger list[]);
 

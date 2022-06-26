@@ -1,7 +1,7 @@
 /*
  ============================================================================
  Name        : TP2_administrarPasajeros.c
- Author      : Ezequiel Melo 1°C
+ Author      : Ezequiel Melo 1°B
  Version     :
  Copyright   : @EzzMellow
  Description : Hello World in C, Ansi-style
@@ -17,7 +17,7 @@
 #include "arrayPassenger.h"
 
 #define LIMIT_CHARACTERS 51
-#define LENCODES 4
+#define LENCODES 100
 #define LENTYPE 3
 #define LENSTATUS 3
 #define EMPTY 0
@@ -27,7 +27,7 @@
 #define ERROR -1
 
 int main(void){
-	int id=0;
+	int auxId=5;
 	char name[LIMIT_CHARACTERS]="";
 	char lastName[LIMIT_CHARACTERS]="";
 	float price=0;
@@ -39,7 +39,8 @@ int main(void){
 	int subOption;
 
 	Passenger aPassenger[LENPASSENGERS];
-	FlightCode Codes[LENCODES]={{1133,"ARG1133",TAKEN},{1218,"ARG1218",TAKEN},{1301,"ARG1301",TAKEN},{1353,"ARG1353",TAKEN}};
+	FlightCode Codes[LENCODES];
+	addFlightHardcode(Codes, LENCODES);
 	TypePassenger PassengersType[LENTYPE]={{1,"Primera Clase",TAKEN},{2,"Turista",TAKEN},{3,"Ejecutiva",TAKEN}};
 	StatusFlight Status[LENSTATUS]={{1,"ACTIVO",TAKEN},{2,"DEMORADO",TAKEN},{3,"CANCELADO",TAKEN}};
 
@@ -51,11 +52,12 @@ int main(void){
 	do
 	{
 		puts("ingrese una de las opciones siguientes: ");
-		getIntNumber(&option,"\n1- Alta pasajero \n2- Modificar pasajero \n3- Baja pasajero \n4- Informar (Listado, total y promedio) \n5- Salir\n","\nError ingrese una opcion correcta\n", 1, 5, 5);
+		getIntNumber(&option,"\n1- Alta pasajero \n2- Modificar pasajero \n3- Baja pasajero \n4- Informar (Listado, total y promedio) \n5- Opciones de vuelos (añadir/eliminar) \n6- Alta forzada\n7- Salir\n","\nError ingrese una opcion correcta\n", 1, 7, 5);
 		switch(option)
 		{
 		case 1:
-			addPassenger(aPassenger, LENPASSENGERS, Codes, LENCODES, PassengersType, LENTYPE, Status, LENSTATUS, id, name, lastName, price, flyCode, typePassenger, statusFlight);
+			idGeneratorFinal(&auxId);
+			addPassenger(aPassenger, LENPASSENGERS, Codes, LENCODES, PassengersType, LENTYPE, Status, LENSTATUS, auxId, name, lastName, price, flyCode, typePassenger, statusFlight);
 			break;
 		case 2:
 			passengerModifier(aPassenger, LENPASSENGERS, Codes, LENCODES, PassengersType, LENTYPE, Status, LENSTATUS);
@@ -107,8 +109,23 @@ int main(void){
 				puts("Error. No hay pasajeros para mostrar o hacer operaciones");
 			}
 			break;
+		case 5:
+			getIntNumber(&option,"1- Añadir nuevo vuelo\n2- Eliminar vuelo\n","\nError ingrese una opcion correcta\n", 1, 2, 5);
+			switch(option)
+			{
+			case 1:
+				addFlight(Codes, LENCODES);
+				break;
+			case 2:
+				removeFlight(Codes, LENCODES);
+				break;
+			}
+			break;
+		case 6:
+			addPassengerHardcode(aPassenger);
+			break;
 		}
-	}while(option!=5);
+	}while(option!=7);
 	puts("Muchas gracias por utilizar el programa!!!");
 	return EXIT_SUCCESS;
 }

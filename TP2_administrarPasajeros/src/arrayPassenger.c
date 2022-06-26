@@ -96,23 +96,9 @@ int verifyFlightCode(FlightCode list[], int len, int toVerify)
 	return exists;
 }
 
-int idGenerator(Passenger list[], int len)
+void idGeneratorFinal(int* id)
 {
-	int i;
-	int id=0;
-	int max=0;
-
-	for(i=0;i<len;i++)
-	{
-		if(list[i].id>max)
-		{
-			max=list[i].id;
-		}
-	}
-
-	id=max+1;
-
-	return id;
+	*id=*id+1;
 }
 
 /*---------------------------------------------------------Alta lista-------------------------------------------------------------------------*/
@@ -142,7 +128,7 @@ int askForPassenger(Passenger list[], int len, FlightCode listflightCode[], int 
 	{
 		puts("Ingrese uno de los siguientes vuelos disponibles:");
 		printFlightCodes(listflightCode, flightCodeLen);
-		correctFlightCode=getIntNumber(&auxFlightCode,"Ingrese ID de Vuelo:\n ","Error, el numero de vuelo ingresado no existe\n",1000,1500,5);
+		correctFlightCode=getIntNumber(&auxFlightCode,"Ingrese ID de Vuelo:\n ","Error, el numero de vuelo ingresado no existe\n",1000,2000,5);
 		verify=verifyFlightCode(listflightCode, flightCodeLen, auxFlightCode);
 		if(verify==ERROR)
 		{
@@ -181,7 +167,7 @@ int addPassenger(Passenger* list, int len, FlightCode* listflightCode, int fligh
 		errorCode=askForPassenger(list, len, listflightCode, flightCodeLen, listTypePassenger, lenTypePassenger, name, lastName, &price, &flyCode, &typePassenger);
 		if(errorCode!=ERROR)
 		{
-			list[index].id=idGenerator(list, len);
+			list[index].id=id;
 			strcpy(list[index].name,name);
 			strcpy(list[index].lastName,lastName);
 			list[index].price=price;
@@ -204,7 +190,7 @@ int addPassenger(Passenger* list, int len, FlightCode* listflightCode, int fligh
 			}
 		}else
 		{
-			puts("Error. No se ha podido cargar el producto debido a un problema en la carga de uno o mas de los datos");
+			puts("Error. No se ha podido cargar el pasajero debido a un problema en la carga de uno o mas de los datos");
 		}
 	}else
 	{
@@ -274,7 +260,7 @@ void modifyPassenger(Passenger list[], int index, FlightCode listflightCode[], i
 			}
 			break;
 		case 3:
-			correctValue=getFloatNumber(&auxPrice,"Ingrese el Precio; \n","Error ha superado el limite\n",1,5000000,5);
+			correctValue=getFloatNumber(&auxPrice,"Ingrese el Precio:\n","Error ha superado el limite\n",1,5000000,5);
 			if(correctValue!=ERROR)
 			{
 			list[index].price=auxPrice;
@@ -324,6 +310,8 @@ int passengerModifier(Passenger* list, int len, FlightCode listflightCode[], int
 
 	if(list!=NULL && len>0 && searchForTakenPositions(list, len)!=ERROR)
 	{
+		puts("Elija que pasajero desea modificar de la lista:");
+		printPassengers(list, len, listflightCode, flightCodeLen, listTypePassenger, lenTypePassenger, listFLights, lenFlights);
 		getIntNumber(&id,"Ingrese el ID del Pasajero a modificar: ","Error. ID invalido", 1, 100000, 5);
 
 		auxIndex=findPassengerById(list, len, id);
@@ -383,6 +371,8 @@ int passengerRemover(Passenger* list, int len, FlightCode listflightCode[], int 
 
 	if(list!=NULL && len>0 && searchForTakenPositions(list, len)!=ERROR)
 	{
+		puts("Elija que pasajero desea eliminar de la lista:");
+		printPassengers(list, len, listflightCode, flightCodeLen, listTypePassenger, lenTypePassenger, listFLights, lenFlights);
 		getIntNumber(&id,"Ingrese el ID del Pasajero que desea eliminar: ","Error. ID invalido", 1, 100000, 5);
 
 		auxIndex=findPassengerById(list, len, id);
@@ -591,18 +581,22 @@ int printPassengersTwo(Passenger* list, int length, FlightCode* listCodes, int l
 	{
 		for(x=0; x<lenCodes; x++)
 		{
-			for(j=0; j<lenFlights; j++)
+			if(listCodes[x].isEmpty==1)
 			{
-				if(listFLights[j].idStatusFlight==1)
+				for(j=0; j<lenFlights; j++)
 				{
-					puts("_____________________________________________________________________________");
-					printf("|  **%4s  |                          %s                              |\n", listCodes[x].flyCode, listFLights[j].statusFlight);
-					puts("|_____________|______________________________________________________________|");
-					for(i=0; i<length; i++)
+					if(listFLights[j].idStatusFlight==1)
 					{
-						if(list[i].isEmpty==TAKEN && list[i].flyCode==listCodes[x].idFlyCode && list[i].statusFlight==1)
+						puts("_____________________________________________________________________________");
+						printf("|  **%4s  |                          %s                              |\n", listCodes[x].flyCode, listFLights[j].statusFlight);
+						puts("|_____________|______________________________________________________________|");
+
+						for(i=0; i<length; i++)
 						{
-							printAPassengerTwo(list[i], listType, lenTypes);
+							if(list[i].isEmpty==TAKEN && list[i].flyCode==listCodes[x].idFlyCode && list[i].statusFlight==1)
+							{
+								printAPassengerTwo(list[i], listType, lenTypes);
+							}
 						}
 					}
 				}
@@ -626,23 +620,26 @@ void printAPassenger(Passenger list, FlightCode* listCodes, int lenCodes, TypePa
 
 	for(y=0; y<lenCodes; y++)
 	{
-		for(x=0; x<lenTypes; x++)
+		if(listCodes[y].isEmpty==TAKEN)
 		{
-			for(j=0; j<lenFlights; j++)
+			for(x=0; x<lenTypes; x++)
 			{
-
-				if(listCodes[y].idFlyCode == list.flyCode &&
-					listType[x].idTypePassenger == list.typePassenger &&
-					listFLights[j].idStatusFlight == list.statusFlight)
+				for(j=0; j<lenFlights; j++)
 				{
-					printf("| %04d  |  %10s    |%10s     | %10.2f     | %10s     | %13s    | %10s       |\n", list.id,
-																																list.name,
-																																list.lastName,
-																																list.price,
-																																listCodes[y].flyCode,
-																																listType[x].typePassenger,
-																																listFLights[j].statusFlight);
-					puts("|_______|________________|_______________|________________|________________|__________________|__________________|");
+
+					if(listCodes[y].idFlyCode == list.flyCode &&
+						listType[x].idTypePassenger == list.typePassenger &&
+						listFLights[j].idStatusFlight == list.statusFlight)
+					{
+						printf("| %04d  |  %10s    |%10s     | %10.2f     | %10s     | %13s    | %10s       |\n", list.id,
+																																	list.name,
+																																	list.lastName,
+																																	list.price,
+																																	listCodes[y].flyCode,
+																																	listType[x].typePassenger,
+																																	listFLights[j].statusFlight);
+						puts("|_______|________________|_______________|________________|________________|__________________|__________________|");
+					}
 				}
 			}
 		}
@@ -674,84 +671,33 @@ int printPassengers(Passenger* list, int length, FlightCode* listCodes, int lenC
 	return rtn;
 }
 
-void printStatusFlight(StatusFlight list)
-{
-	printf("|%2d     |%13s   |\n",list.idStatusFlight, list.statusFlight);
-	puts("|_______|________________|");
-}
-
-void printStatusFlights(StatusFlight list[], int len)
-{
-	int i;
-
-	if(list!=NULL && len>0)
-	{
-		puts("_________________________");
-		puts("| ID:   |     Status:    |");
-		puts("|_______|________________|");
-		for(i=0; i<len; i++)
-		{
-			if(list[i].isEmpty==TAKEN)
-			{
-				printStatusFlight(list[i]);
-			}
-		}
-	}
-}
-
-void printTypePassenger(TypePassenger list)
-{
-	printf("|%2d     |%13s   |\n",list.idTypePassenger, list.typePassenger);
-	puts("|_______|________________|");
-}
-
-void printTypePassengers(TypePassenger list[], int len)
-{
-	int i;
-
-	if(list!=NULL && len>0)
-	{
-		puts("_________________________");
-		puts("| ID:   |     Asiento:   |");
-		puts("|_______|________________|");
-		for(i=0; i<len; i++)
-		{
-			if(list[i].isEmpty==TAKEN)
-			{
-				printTypePassenger(list[i]);
-			}
-		}
-	}
-}
-
-void printFlightCode(FlightCode list)
-{
-	printf("|%5d  |%10s      |\n",list.idFlyCode, list.flyCode);
-	puts("|_______|________________|");
-}
-
-void printFlightCodes(FlightCode list[], int len)
-{
-	int i;
-
-	if(list!=NULL && len>0)
-	{
-		puts("_________________________");
-		puts("| ID:   |     Vuelo:     |");
-		puts("|_______|________________|");
-		for(i=0; i<len; i++)
-		{
-			if(list[i].isEmpty==TAKEN)
-			{
-				printFlightCode(list[i]);
-			}
-		}
-	}
-}
-
 void title()
 {
 	puts("_________________________________________________________________________________________________________________");
 	puts("| ID:   |     Nombre:    |   Apellido:   |     Precio:    |     Vuelo:     |     Asiento:     |   Status vuelo:  |");
 	puts("|_______|________________|_______________|________________|________________|__________________|__________________|");
+}
+
+void addPassengerHardcode(Passenger list[])
+{
+	int id[5]={1,2,3,4,5};
+	char name[5][LIMIT_CHARACTERS]={"Mariela","Juanpablo","Mauro","Yolanda","Fabio"};
+	char lastName[5][LIMIT_CHARACTERS]={"Gomez","Martinez","Gomez","Alberdi","Benitez"};
+	float price[5]={20000,30000,18000,32000,45000};
+	int flyCode[5]={1133,1218,1301,1353,1133};
+	int typePassenger[5]={1,2,2,1,2};
+	int statusFlight[5]={1,1,1,1,2};
+	int isEmpty[5]={TAKEN,TAKEN,TAKEN,TAKEN,TAKEN};
+
+	for(int i=0; i<5; i++)
+	{
+		list[i].id=id[i];
+		strcpy(list[i].name,name[i]);
+		strcpy(list[i].lastName,lastName[i]);
+		list[i].price=price[i];
+		list[i].flyCode=flyCode[i];
+		list[i].typePassenger=typePassenger[i];
+		list[i].statusFlight=statusFlight[i];
+		list[i].isEmpty=isEmpty[i];
+	}
 }
