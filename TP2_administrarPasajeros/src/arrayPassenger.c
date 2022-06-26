@@ -700,4 +700,6 @@ void addPassengerHardcode(Passenger list[])
 		list[i].statusFlight=statusFlight[i];
 		list[i].isEmpty=isEmpty[i];
 	}
+
+	puts("Se han cargado los datos de manera forzada con exito!!!");
 }
